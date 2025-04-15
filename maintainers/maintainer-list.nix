@@ -15153,6 +15153,12 @@
       { fingerprint = "DA77 EDDB 4AF5 244C 665E  9176 A05E A86A 5834 1AA8"; }
     ];
   };
+  magic_rb = {
+    name = "Richard Brežák";
+    matrix = "@magic_rb:redalder.org";
+    github = "magic_rb";
+    githubId = 8005463;
+  };
   magneticflux- = {
     email = "skaggsm333@gmail.com";
     github = "magneticflux-";

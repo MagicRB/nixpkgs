@@ -765,6 +765,7 @@ in
   libvirtd = runTest ./libvirtd.nix;
   lidarr = runTest ./lidarr.nix;
   lightdm = runTest ./lightdm.nix;
+  lightdm-sway = runTest ./lightdm-sway.nix;
   lighttpd = runTest ./lighttpd.nix;
   livekit = runTest ./networking/livekit.nix;
   limesurvey = runTest ./limesurvey.nix;
