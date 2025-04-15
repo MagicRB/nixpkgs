@@ -14402,6 +14402,12 @@
     githubId = 1809783;
     name = "Marco Maggesi";
   };
+  magic_rb = {
+    name = "Richard Brežák";
+    matrix = "@magic_rb:redalder.org";
+    github = "magic_rb";
+    githubId = 8005463;
+  };
   magneticflux- = {
     email = "skaggsm333@gmail.com";
     github = "magneticflux-";
