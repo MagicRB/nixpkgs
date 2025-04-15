@@ -54,6 +54,12 @@ let
     ''
       #! ${pkgs.bash}/bin/bash
 
+      _WAYLAND_SESSION=$(
+        if [ "$XDG_SESSION_TYPE" = "wayland" ] ; then
+          echo "1"
+        fi
+      )
+
       # Shared environment setup for graphical sessions.
 
       . /etc/profile
@@ -79,12 +85,14 @@ let
         exec &> >(tee ~/.xsession-errors)
       ''}
 
-      # Load X defaults. This should probably be safe on wayland too.
-      ${xorg.xrdb}/bin/xrdb -merge ${xresourcesXft}
-      if test -e ~/.Xresources; then
-          ${xorg.xrdb}/bin/xrdb -merge ~/.Xresources
-      elif test -e ~/.Xdefaults; then
-          ${xorg.xrdb}/bin/xrdb -merge ~/.Xdefaults
+      if [ -z "$_WAYLAND_SESSION" ] ; then
+        # Load X defaults. This should probably be safe on wayland too.
+        ${xorg.xrdb}/bin/xrdb -merge ${xresourcesXft}
+        if test -e ~/.Xresources; then
+            ${xorg.xrdb}/bin/xrdb -merge ~/.Xresources
+        elif test -e ~/.Xdefaults; then
+            ${xorg.xrdb}/bin/xrdb -merge ~/.Xdefaults
+        fi
       fi
 
       # Import environment variables into the systemd user environment.
@@ -114,9 +122,11 @@ let
 
       ${fakeSession "start"}
 
-      # Allow the user to setup a custom session type.
-      if test -x ~/.xsession; then
-          eval exec ~/.xsession "$@"
+      if [ -z "$_WAYLAND_SESSION" ] ; then
+        # Allow the user to setup a custom session type.
+        if test -x ~/.xsession; then
+            eval exec ~/.xsession "$@"
+        fi
       fi
 
       if test "$1"; then
