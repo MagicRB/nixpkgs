@@ -57,6 +57,8 @@ let
   libDir =
     if isHaLVM then
       "$out/lib/HaLVM-${ghc.version}"
+    else if ghc.targetPrefix == "wasm32-wasi-" then
+      "$out/lib"
     else
       "$out/lib/${ghc.targetPrefix}${ghc.haskellCompilerName}"
       + lib.optionalString (ghc ? hadrian) "/lib";
@@ -173,8 +175,8 @@ else
         # to another nix derivation, so they are not writable.  Removing
         # them allow the correct behavior of ghc-pkg recache
         # See: https://github.com/NixOS/nixpkgs/issues/79441 krank:ignore-line
-        rm ${packageCfgDir}/package.cache.lock
-        rm ${packageCfgDir}/package.cache
+        rm -f ${packageCfgDir}/package.cache.lock
+        rm -f ${packageCfgDir}/package.cache
 
         $out/bin/${ghcCommand}-pkg recache
       ''}
